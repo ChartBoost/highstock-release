@@ -7,6 +7,8 @@
  * (c) 2009-2014 Torstein Honsi
  *
  * License: www.highcharts.com/license
+ *
+ * Modification: Highstock JS v2.1.7.chartboost (2015-08-05) Mailan Reiser for Integer X-Axis Support
  */
 
 // JSLint options:
@@ -22332,9 +22334,15 @@ RangeSelector.prototype = {
 		if (defined(time)) {
 			this[name + 'Input'].HCTime = time;
 		}
-		
-		this[name + 'Input'].value = dateFormat(options.inputEditDateFormat || '%Y-%m-%d', this[name + 'Input'].HCTime);
-		this[name + 'DateBox'].attr({ text: dateFormat(options.inputDateFormat || '%b %e, %Y', this[name + 'Input'].HCTime) });
+
+        if (options.inputDateFormat === 'integer' && options.inputEditDateFormat === 'integer') {
+            this[name + 'Input'].value = parseInt(this[name + 'Input'].HCTime);
+            this[name + 'DateBox'].attr({ text: parseInt(this[name + 'Input'].HCTime) });
+        }
+        else {
+            this[name + 'Input'].value = dateFormat(options.inputEditDateFormat || '%Y-%m-%d', this[name + 'Input'].HCTime);
+            this[name + 'DateBox'].attr({text: dateFormat(options.inputDateFormat || '%b %e, %Y', this[name + 'Input'].HCTime)});
+        }
 	},
 
 	showInput: function (name) {
